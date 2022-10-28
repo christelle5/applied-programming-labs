@@ -1,2 +1,4 @@
 Flask==2.2.2
 waitress==2.1.2
+SQLAlchemy==1.4.42
+mysql-connector-python==8.0.30
