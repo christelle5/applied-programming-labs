@@ -1,0 +1,11 @@
+SELECT * FROM event;
+SELECT * FROM participant;
+SELECT * FROM user;
+DELETE FROM event WHERE eventId > 0;
+DELETE FROM participant WHERE participant.event_eventId > 0;
+DELETE FROM user WHERE userId > 0;
+SELECT * FROM alembic_version;
+DROP TABLE alembic_version;
+DROP TABLE event;
+DROP TABLE participant;
+DROP TABLE user;
