@@ -9,7 +9,7 @@ info:
 externalDocs:
   description: Find out more about the project
   url: https://github.com/christelle5/applied-programming-labs
-  
+
 tags:
   - name: user
     description: Operations about user
@@ -45,17 +45,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'          
+                $ref: '#/components/schemas/Event'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
         '405':
           description: Invalid input
+        '400':
+          description: Validation Error
       security:
         - api_key:
             - write:events
             - read:events
-  
+
   /event/{eventId}:
     get:
       tags:
@@ -77,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'          
+                $ref: '#/components/schemas/Event'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
@@ -109,7 +111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'          
+                $ref: '#/components/schemas/Event'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
@@ -174,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participants'          
+                $ref: '#/components/schemas/Participants'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participants'
@@ -227,7 +229,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'          
+                $ref: '#/components/schemas/Event'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
@@ -264,7 +266,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participant'          
+                $ref: '#/components/schemas/Participant'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participant'
@@ -303,7 +305,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participant'          
+                $ref: '#/components/schemas/Participant'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participant'
@@ -353,7 +355,7 @@ paths:
         - api_key:
             - write:event
             - read:event
-  
+
   /user:
     post:
       tags:
@@ -383,7 +385,11 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
-  
+        '400':
+          description: Validation Error
+        '409':
+          description: User with such username or email already exists.
+
   /user/login:
     get:
       tags:
@@ -427,7 +433,7 @@ paths:
                 type: string
         '400':
           description: Invalid username/password supplied
-  
+
   /user/logout:
     get:
       tags:
@@ -439,7 +445,7 @@ paths:
       responses:
         default:
           description: successful operation
-  
+
   /user/{userId}:
     get:
       tags:
@@ -461,7 +467,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/User'
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -523,7 +529,7 @@ paths:
           description: Invalid user ID supplied
         '404':
           description: User not found
-  
+
   /calendar/{userId}:
     get:
       tags:
@@ -545,7 +551,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'          
+                $ref: '#/components/schemas/Calendar'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Calendar'
@@ -661,7 +667,7 @@ components:
             phone: '895-3565-334'
       xml:
         name: participants
- 
+
     Event:
       required:
         - id

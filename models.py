@@ -12,8 +12,8 @@ Base = declarative_base()
 
 
 Participant = Table('participant', Base.metadata,
-                    Column('user_userId', Integer, ForeignKey('user.userId')),
-                    Column('event_eventId', Integer, ForeignKey('event.eventId')),
+                    Column('user_userId', Integer, ForeignKey('user.userId', ondelete="CASCADE")),
+                    Column('event_eventId', Integer, ForeignKey('event.eventId', ondelete="CASCADE")),
                     Column('user_status', String(30), nullable=True))
 
 
@@ -25,7 +25,7 @@ class User(Base):
     firstName = Column(String(30), nullable=False)
     lastName = Column(String(30), nullable=False)
     email = Column(String(75), nullable=False)
-    password = Column(String(30), nullable=False)
+    password = Column(String(80), nullable=False)
     phone = Column(String(45), nullable=True)
     events = relationship("Event")
     event = relationship("Event", secondary=Participant, back_populates="user")
@@ -35,7 +35,7 @@ class Event(Base):
     __tablename__ = 'event'
 
     eventId = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    creator_userId = Column(Integer, ForeignKey('user.userId'))  # one-to-many
+    creator_userId = Column(Integer, ForeignKey('user.userId', ondelete="CASCADE"), nullable=False)  # one-to-many
     title = Column(String(60), nullable=False)
     aboutEvent = Column(String(255), nullable=True)
     startDate = Column(DATE, nullable=False)
@@ -43,3 +43,4 @@ class Event(Base):
     startTime = Column(String(5), nullable=True)
     endTime = Column(String(5), nullable=True)
     user = relationship("User", secondary=Participant, back_populates="event")
+
