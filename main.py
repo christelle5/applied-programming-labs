@@ -7,10 +7,24 @@ import models
 from models import *
 from sqlalchemy import delete, update, select, values
 from validation_shemas import UserSchema, EventSchema, ParticipantSchema, UserSchemaUpdate, ParticipantSchemaUpdate, EventSchemaUpdate
+from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__)
 session = Session()
 bcrypt = Bcrypt()
+auth = HTTPBasicAuth()
+
+
+@auth.verify_password
+def user_auth(username, password):
+    try:
+        user = session.query(User).filter_by(username=username).first()
+    except:
+        return None
+    if user and bcrypt.check_password_hash(user.password, password):
+        return user
+    else:
+        return None
 
 
 @app.route("/")
@@ -80,95 +94,111 @@ def login_user():
 
 # Get user by id
 @app.route('/api/v1/user/<int:userId>', methods=['GET'])
+@auth.login_required
 def get_user(userId):
     try:
-        if userId <= 0:
-            return Response(status=400, response='Invalid user ID supplied.')
-        # Check if user exists
-        db_user = session.query(User).filter_by(userId=userId).first()
-        if not db_user:
-            return Response(status=404, response='User not found.')
+        current = auth.current_user()
+        if current.userId == userId:
+            if userId <= 0:
+                return Response(status=400, response='Invalid user ID supplied.')
+            # Check if user exists
+            db_user = session.query(User).filter_by(userId=userId).first()
+            if not db_user:
+                return Response(status=404, response='User not found.')
 
-        # Return user data
-        user_data = {'id': db_user.userId, 'username': db_user.username, 'firstName': db_user.firstName,
-                     'lastName': db_user.lastName, 'email': db_user.email, 'phone': db_user.phone}
-        return jsonify({"user": user_data})
+            # Return user data
+            user_data = {'id': db_user.userId, 'username': db_user.username, 'firstName': db_user.firstName,
+                        'lastName': db_user.lastName, 'email': db_user.email, 'phone': db_user.phone}
+            return jsonify({"user": user_data})
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
     except:
         return Response(status=500, response='Internal Server Error')
 
 
 # Update user by id
 @app.route('/api/v1/user/<int:userId>', methods=['PUT'])
+@auth.login_required
 def update_user(userId):
     try:
-        # Get data from request body
-        data = request.get_json()
+        current = auth.current_user()
+        if current.userId == userId:
+            # Get data from request body
+            data = request.get_json()
 
-        # Check if user exists
-        if userId <= 0:
-            return Response(status=400, response='Invalid user ID supplied.')
-        db_user = session.query(User).filter_by(userId=userId).first()
-        if not db_user:
-            return Response(status=404, response='User not found.')
+            # Check if user exists
+            if userId <= 0:
+                return Response(status=400, response='Invalid user ID supplied.')
+            db_user = session.query(User).filter_by(userId=userId).first()
+            if not db_user:
+                return Response(status=404, response='User not found.')
 
-        # Check if username is not taken if user tries to change it
-        if 'username' in data.keys() and db_user.username != data['username']:
-            exists = session.query(User).filter_by(username=data['username']).first()
-            if exists:
-                return Response(status=404, response='User with such username already exists.')
-            db_user.username = data['username']
-        try:
-            UserSchemaUpdate().load(data)
-        except ValidationError as err:
-            return jsonify(err.messages), 400
-        # Change user data
-        if 'firstName' in data.keys():
-            db_user.firstName = data['firstName']
-        if "lastName" in data.keys():
-            db_user.lastName = data['lastName']
-        if 'password' in data.keys():
-            hashed_password = bcrypt.generate_password_hash(data['password'])
-            db_user.password = hashed_password
-        if "email" in data.keys() and db_user.email != data['email']:
-            exists = session.query(User).filter_by(email=data['email']).first()
-            if exists:
-                return Response(status=404, response='User with such email already exists.')
-            db_user.email = data['email']
-        if "phone" in data.keys():
-            db_user.phone = data["phone"]
+            # Check if username is not taken if user tries to change it
+            if 'username' in data.keys() and db_user.username != data['username']:
+                exists = session.query(User).filter_by(username=data['username']).first()
+                if exists:
+                    return Response(status=404, response='User with such username already exists.')
+                db_user.username = data['username']
+            try:
+                UserSchemaUpdate().load(data)
+            except ValidationError as err:
+                return jsonify(err.messages), 400
+            # Change user data
+            if 'firstName' in data.keys():
+                db_user.firstName = data['firstName']
+            if "lastName" in data.keys():
+                db_user.lastName = data['lastName']
+            if 'password' in data.keys():
+                hashed_password = bcrypt.generate_password_hash(data['password'])
+                db_user.password = hashed_password
+            if "email" in data.keys() and db_user.email != data['email']:
+                exists = session.query(User).filter_by(email=data['email']).first()
+                if exists:
+                    return Response(status=404, response='User with such email already exists.')
+                db_user.email = data['email']
+            if "phone" in data.keys():
+                db_user.phone = data["phone"]
 
-        # Save changes
-        session.commit()
+            # Save changes
+            session.commit()
 
-        # Return new user data
-        user_data = {'id': db_user.userId, 'username': db_user.username, 'first_name': db_user.firstName,
-                     'last_name': db_user.lastName, 'email': db_user.email, 'phone': db_user.phone}
-        return jsonify({"user": user_data})
+            # Return new user data
+            user_data = {'id': db_user.userId, 'username': db_user.username, 'first_name': db_user.firstName,
+                        'last_name': db_user.lastName, 'email': db_user.email, 'phone': db_user.phone}
+            return jsonify({"user": user_data})
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
     except:
         return Response(status=500, response='Internal Server Error')
 
 
 # Delete user by id
 @app.route('/api/v1/user/<int:userId>', methods=['DELETE'])
+@auth.login_required
 def delete_user(userId):
     try:
-        if userId <= 0:
-            return Response(status=400, response='Invalid user ID supplied.')
-        # Check if user exists
-        db_user = session.query(User).filter_by(userId=userId).first()
-        if not db_user:
-            return Response(status=404, response='A user with provided ID was not found.')
+        current = auth.current_user()
+        if current.userId == userId:
+            if userId <= 0:
+                return Response(status=400, response='Invalid user ID supplied.')
+            # Check if user exists
+            db_user = session.query(User).filter_by(userId=userId).first()
+            if not db_user:
+                return Response(status=404, response='A user with provided ID was not found.')
 
-        # Delete user
-        deleting = delete(User).where(User.userId == userId)
-        session.execute(deleting)
-        session.commit()
-        return Response(response='User was deleted.')
+            # Delete user
+            deleting = delete(User).where(User.userId == userId)
+            session.execute(deleting)
+            session.commit()
+            return Response(response='User was deleted.')
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
     except:
         return Response(status=500, response='Internal Server Error')
 
 
 @app.route("/api/v1/event", methods=['POST'])
+@auth.login_required
 def add_event():
     try:
         # Get data from request body
@@ -185,6 +215,11 @@ def add_event():
         except:
             return Response(status=405, response='Invalid input.')
         exists = session.query(User).filter_by(userId=data['creator_userId']).first()
+        current = auth.current_user()
+        if current.userId == data['creator_userId']:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         # exists3 = session.query(User.userId).filter_by(userId=data['userId']).first()
         if datetime.datetime.strptime(data['startDate'], '%Y-%m-%d') > datetime.datetime.strptime(data["endDate"], '%Y-%m-%d'):
             return Response(status=405, response='Invalid input.')
@@ -209,24 +244,50 @@ def add_event():
 
 
 @app.route('/api/v1/event/<int:eventId>', methods=['GET'])
+@auth.login_required
 def get_event(eventId):
     try:
+        current = auth.current_user()
         if eventId <= 0:
             return Response(status=400, response='Invalid ID supplied')
         db_event = session.query(Event).filter_by(eventId=eventId).first()
         if not db_event:
             return Response(status=404, response='Event not found.')
-
+        check1 = False
+        check2 = False
+        if current.userId == db_event.creator_userId:
+            check1 = True
+        events = session.query(Participant).filter_by(event_eventId=eventId).order_by(Participant.c.user_userId)
+        q=0
+        for e in events:
+            if e.user_userId != current.userId:
+                pass
+            else:
+                q+=1
+        if q == 0:
+            check2 = False
+        else:
+            check2 = True
+        if check1 == True or check2 == True:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         return jsonify(EventSchema().dump(db_event))
     except:
         return Response(status=500, response='Internal Server Error')
 
 
 @app.route('/api/v1/event/<int:eventId>', methods=['PUT'])
+@auth.login_required
 def update_event(eventId):
     try:
+        current = auth.current_user()
         # Get data from request body
         data = request.get_json()
+        if current.userId == data['creator_userId']:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         if eventId <= 0:
             return Response(status=400, response='Invalid ID supplied')
         db_event = session.query(Event).filter_by(eventId=eventId).first()
@@ -293,9 +354,15 @@ def update_event(eventId):
 
 
 @app.route('/api/v1/event/<int:eventId>', methods=['DELETE'])
+@auth.login_required
 def delete_event(eventId):
     try:
+        current = auth.current_user()
         db_event = session.query(Event).filter_by(eventId=eventId).first()
+        if current.userId == db_event.creator_userId:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         if not db_event:
             return Response(status=400, response='Invalid event value.')
 
@@ -308,8 +375,27 @@ def delete_event(eventId):
 
 
 @app.route('/api/v1/<int:eventId>/participants', methods=['GET'])
+@auth.login_required
 def get_participants(eventId):
     try:
+        current = auth.current_user()
+        check1 = False
+        check2 = True
+        if current.userId == db_event.creator_userId:
+            check1 = True
+        events = session.query(Participant).filter_by(event_eventId=eventId).order_by(Participant.c.user_userId)
+        q=0
+        for e in events:
+            if e.user_userId != current.userId:
+                pass
+            else:
+                q+=1
+        if q == 0:
+            check1 = False
+        if check1 == True or check2 == True:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         if eventId <= 0:
             return Response(status=400, response='Invalid ID supplied')
         db_event = session.query(Event).filter_by(eventId=eventId).first()
@@ -333,11 +419,17 @@ def get_participants(eventId):
 
 
 @app.route('/api/v1/event/<int:eventId>/participants/<int:userId>', methods=['POST'])
+@auth.login_required
 def add_participants_event(eventId, userId):
     try:
+        current = auth.current_user()
         db_event = session.query(Event).filter_by(eventId=eventId).first()
         if not db_event:
             return Response(status=405, response='Invalid input')
+        if current.userId == db_event.creator_userId:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         db_user = session.query(User).filter_by(userId=userId).first()
         if not db_user:
             return Response(status=405, response='Invalid input')
@@ -362,6 +454,7 @@ def add_participants_event(eventId, userId):
 
 
 @app.route('/api/v1/event/<int:eventId>/participants/<int:userId>', methods=['GET'])
+@auth.login_required
 def get_participants_event(eventId, userId):
     try:
         db_event = session.query(Event).filter_by(eventId=eventId).first()
@@ -390,11 +483,17 @@ def get_participants_event(eventId, userId):
 
 
 @app.route('/api/v1/event/<int:eventId>/participants/<int:userId>', methods=['PUT'])
+@auth.login_required
 def update_participants_event(eventId, userId):
     try:
+        current = auth.current_user()
         db_event = session.query(Event).filter_by(eventId=eventId).first()
         if not db_event:
             return Response(status=404, response='Event not found.')
+        if current.userId == db_event.creator_userId:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
         db_user = session.query(User).filter_by(userId=userId).first()
         if not db_user:
             return Response(status=404, response='User not found.')
@@ -418,8 +517,20 @@ def update_participants_event(eventId, userId):
 
 
 @app.route('/api/v1/event/<int:eventId>/participants/<int:userId>', methods=['DELETE'])
+@auth.login_required
 def delete_participants_event(eventId, userId):
     try:
+        current = auth.current_user()
+        db_event = session.query(Event).filter_by(eventId=eventId).first()
+        if not db_event:
+            return Response(status=404, response='Event not found.')
+        if current.userId == db_event.creator_userId:
+            pass
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
+        db_user = session.query(User).filter_by(userId=userId).first()
+        if not db_user:
+            return Response(status=404, response='User not found.')
         db_event_participant = session.query(Participant).filter_by(event_eventId=eventId, user_userId=userId).first()
         if not db_event_participant:
             return Response(status=400, response='Invalid event or user value.')
@@ -434,41 +545,46 @@ def delete_participants_event(eventId, userId):
 
 
 @app.route('/api/v1/calendar/<int:userId>', methods=['GET'])
+@auth.login_required
 def calendar(userId):
     try:
-        if userId <= 0:
-            return Response(status=400, response='Invalid user ID supplied.')
-        db_user = session.query(User).filter_by(userId=userId).first()
-        if not db_user:
-            return Response(status=404, response='User not found.')
-        events = session.query(Participant).filter_by(user_userId=db_user.userId).order_by(Participant.c.event_eventId)
-        events2 = session.query(Event).filter_by(creator_userId=db_user.userId).order_by(Event.creator_userId)
-        output = []
-        for e in events:
-            db_event = session.query(Event).filter_by(eventId=e.event_eventId).first()
-            output.append({'I': 'Participant',
-                           'id': db_event.eventId,
-                           'owner': db_event.creator_userId,
-                           'title': db_event.title,
-                           'aboutEvent': db_event.aboutEvent,
-                           'startDate': db_event.startDate,
-                           'endDate': db_event.endDate,
-                           'startTime': db_event.startTime,
-                           'endTime': db_event.endTime})
-        for e in events2:
-            #db_event = session.query(Event).filter_by(eventId=e.eventId).first()
-            output.append({'My owner ': "event",
-                           'id': e.eventId,
-                           'owner': e.creator_userId,
-                           'title': e.title,
-                           'aboutEvent': e.aboutEvent,
-                           'startDate': e.startDate,
-                           'endDate': e.endDate,
-                           'startTime': e.startTime,
-                           'endTime': e.endTime})
-        if len(output) == 0:
-            return Response(status=404, response='Event not found')
-        return jsonify({"Events": output})
+        current = auth.current_user()
+        if current.userId == userId:
+            if userId <= 0:
+                return Response(status=400, response='Invalid user ID supplied.')
+            db_user = session.query(User).filter_by(userId=userId).first()
+            if not db_user:
+                return Response(status=404, response='User not found.')
+            events = session.query(Participant).filter_by(user_userId=db_user.userId).order_by(Participant.c.event_eventId)
+            events2 = session.query(Event).filter_by(creator_userId=db_user.userId).order_by(Event.creator_userId)
+            output = []
+            for e in events:
+                db_event = session.query(Event).filter_by(eventId=e.event_eventId).first()
+                output.append({'I': 'Participant',
+                            'id': db_event.eventId,
+                            'owner': db_event.creator_userId,
+                            'title': db_event.title,
+                            'aboutEvent': db_event.aboutEvent,
+                            'startDate': db_event.startDate,
+                            'endDate': db_event.endDate,
+                            'startTime': db_event.startTime,
+                            'endTime': db_event.endTime})
+            for e in events2:
+                #db_event = session.query(Event).filter_by(eventId=e.eventId).first()
+                output.append({'My owner ': "event",
+                            'id': e.eventId,
+                            'owner': e.creator_userId,
+                            'title': e.title,
+                            'aboutEvent': e.aboutEvent,
+                            'startDate': e.startDate,
+                            'endDate': e.endDate,
+                            'startTime': e.startTime,
+                            'endTime': e.endTime})
+            if len(output) == 0:
+                return Response(status=404, response='Event not found')
+            return jsonify({"Events": output})
+        else:
+            return Response(status=403, response="Access denied! The operation is forbidden for you")
     except:
         return Response(status=500, response='Internal Server Error')
 
