@@ -1,0 +1,730 @@
+openapi: 3.0.3
+info:
+  title: The Events Calendar API
+  description: 'This is the events calendar server. One user can add events into the calendar, delete them, edit information about them and add other users to the event.'
+  contact:
+    email: bilka2004@ukr.net
+    name: Christelle
+  version: 1.0.0
+externalDocs:
+  description: Find out more about the project
+  url: https://github.com/christelle5/applied-programming-labs
+
+tags:
+  - name: user
+    description: Operations about user
+  - name: event
+    description: Operations about event
+  - name: calendar
+    description: Operation abount events in calendar
+
+paths:
+  /event:
+    post:
+      tags:
+        - event
+      summary: Add a new event into the calendar
+      description: Add a new event into the calendar
+      operationId: addEvent
+      requestBody:
+        description: Create a new event in the calendar
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Event'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Event'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '405':
+          description: Invalid input
+        '400':
+          description: Validation Error
+      security:
+        - api_key:
+            - write:events
+            - read:events
+
+  /event/{eventId}:
+    get:
+      tags:
+        - event
+      summary: Find event by ID
+      description: Returns a single event
+      operationId: getEventById
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of event to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+      security:
+        - api_key:
+            - write:events
+            - read:events
+    put:
+      tags:
+        - event
+      summary: Update an existing event
+      description: Update an existing event by ID
+      operationId: updateEvent
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of event to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+        '405':
+          description: Validation exception
+      security:
+        - api_key:
+            - write:events
+            - read:events
+    delete:
+      tags:
+        - event
+      summary: Delete an event
+      description: Delete an event
+      operationId: deleteEvent
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: eventId
+          in: path
+          description: Event id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+        '400':
+          description: Invalid event value
+      security:
+        - api_key:
+            - write:event
+            - read:event
+
+  /event/{eventId}/participants:
+    get:
+      tags:
+        - event
+      summary: Get all participants of the event
+      description: Returns all participants of the event
+      operationId: getParticipants
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of event to return event's participants
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participants'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Participants'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+      security:
+        - api_key:
+            - write:events
+            - read:events
+
+  /event/{eventId}/participants/{userId}:
+    post:
+      tags:
+        - event
+      summary: Add user into event
+      description: This can only be done by creator of the event
+      operationId: addParticipant
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of event in which a participant will be added
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: ID of participant that will be added
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Participant'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Participant'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '405':
+          description: Invalid input
+      security:
+        - api_key:
+            - write:events
+            - read:events
+    get:
+      tags:
+        - event
+      summary: Find a participant of the event by ID
+      description: Find a participant of the event by ID
+      operationId: getParticipant
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of event into which the participant is added
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: ID of the participant
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+      security:
+        - api_key:
+            - write:participants
+            - read:participants
+    put:
+      tags:
+        - event
+      summary: Update participant's info of existing event
+      description: Update participant's info
+      operationId: updateParticipant
+      parameters:
+        - name: eventId
+          in: path
+          description: ID of the event
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: ID of the participant
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Participant'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Participant'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+        '405':
+          description: Validation exception
+      security:
+        - api_key:
+            - write:participants
+            - read:patricipants
+    delete:
+      tags:
+        - event
+      summary: Delete participant of the event
+      description: Delete participant of the event
+      operationId: deleteParticipant
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: eventId
+          in: path
+          description: Event ID where is the participant to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: userId
+          in: path
+          description: Participant ID that need to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+        '400':
+          description: Invalid event value
+      security:
+        - api_key:
+            - write:event
+            - read:event
+
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: This can only be done by the logged in user
+      operationId: createUser
+      requestBody:
+        description: Created user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Validation Error
+        '409':
+          description: User with such username or email already exists.
+
+  /user/login:
+    get:
+      tags:
+        - user
+      summary: Logs user into the system
+      description: ''
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The user name for login
+          required: false
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/xml:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password supplied
+
+  /user/logout:
+    get:
+      tags:
+        - user
+      summary: Logs out current logged in user session
+      description: ''
+      operationId: logoutUser
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+
+  /user/{userId}:
+    get:
+      tags:
+        - user
+      summary: Get user by user ID
+      description: ''
+      operationId: getUserById
+      parameters:
+        - name: userId
+          in: path
+          description: 'The ID that needs to be fetched.'
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid user ID supplied
+        '404':
+          description: User not found
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: This can only be done by the logged in user
+      operationId: updateUser
+      parameters:
+        - name: userId
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+        '400':
+          description: Invalid user ID supplied
+        '404':
+          description: User not found
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: This can only be done by the logged in user
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          description: The name that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+        '400':
+          description: Invalid user ID supplied
+        '404':
+          description: User not found
+
+  /calendar/{userId}:
+    get:
+      tags:
+        - calendar
+      summary: Return list of events in the calendar
+      description: Return list of events in the calendar
+      operationId: eventsList
+      parameters:
+        - name: userId
+          in: path
+          description: ID of user to return user's calendar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Calendar'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Event not found
+      security:
+        - api_key:
+            - write:events
+            - read:events
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - username
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: sarabeautycorner
+        firstName:
+          type: string
+          example: Sara
+        lastName:
+          type: string
+          example: James
+        email:
+          type: string
+          example: saraj24@email.com
+        password:
+          type: string
+          example: 'SaRathEBest34Jam256'
+        phone:
+          type: string
+          example: '895-3565-334'
+      xml:
+        name: user
+
+    Calendar:
+      type: object
+      required:
+        - events
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+          example:
+          - id: 10
+            title: Tim's Party
+            aboutEvent: "801 N 22nd Street Las Vegas NV 89101-2208"
+            startDate: 2019-12-06
+            endDate: 2019-12-06
+            startTime: '16:00'
+            endTime: '19:00'
+          - id: 8
+            title: Course work deadline
+            aboutEvent:
+            startDate: 2019-12-12
+            endDate: 2019-12-12
+            startTime: '13:00'
+            endTime:
+      xml:
+        name: calendar
+
+    Participant:
+      type: object
+      required:
+        - userId
+        - eventId
+      properties:
+        userId:
+          type: integer
+          format: int64
+          example: 10
+        eventId:
+          type: integer
+          format: int64
+          example: 115
+        userStatus:
+          type: string
+          example: ''
+      xml:
+        name: participant
+
+    Participants:
+      type: object
+      required:
+        - participants
+      properties:
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          example:
+          - id: 10
+            username: sarabeautycorner
+            firstName: Sara
+            lastName: James
+            email: saraj24@email.com
+            password: 'SaRathEBest34Jam256'
+            phone: '895-3565-334'
+      xml:
+        name: participants
+
+    Event:
+      required:
+        - id
+        -  creator_userId
+        - title
+        - startDate
+        - endDate
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 115
+        creator_userId:
+          type: integer
+          format: int64
+          description: ID of the creator of the event
+          example: 10
+        title:
+          type: string
+          example: Tim's Birthday
+        aboutEvent:
+          type: string
+          example: "801 N 22nd Street Las Vegas NV 89101-2208"
+        startDate:
+          type: string
+          description: The start date of the event
+          example: "2017-01-01"
+          format: date
+          pattern: "YYYY-MM-DD"
+          minLength: 0
+          maxLength: 10
+        endDate:
+          type: string
+          description: The end date of the event
+          example: "2017-01-01"
+          format: date
+          pattern: "YYYY-MM-DD"
+          minLength: 0
+          maxLength: 10
+        startTime:
+          type: string
+          example: "13:00"
+          format: time
+          minLength: 0
+          maxLength: 5
+        endTime:
+          type: string
+          example: "19:00"
+          format: time
+          minLength: 0
+          maxLength: 5
+      xml:
+        name: event
+
+  securitySchemes:
+    api_key:
+      type: apiKey
+      in: header
+      name: api_key
