@@ -36,7 +36,7 @@ class Event(Base):
 
     eventId = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     creator_userId = Column(Integer, ForeignKey('user.userId', ondelete="CASCADE"), nullable=False)  # one-to-many
-    title = Column(String(60), nullable=False)
+    title = Column(String(80), nullable=False)
     aboutEvent = Column(String(255), nullable=True)
     startDate = Column(DATE, nullable=False)
     endDate = Column(DATE, nullable=False)
