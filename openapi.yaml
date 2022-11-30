@@ -9,7 +9,7 @@ info:
 externalDocs:
   description: Find out more about the project
   url: https://github.com/christelle5/applied-programming-labs
-
+  
 tags:
   - name: user
     description: Operations about user
@@ -45,19 +45,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/Event'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
-        '405':
-          description: Invalid input
         '400':
-          description: Validation Error
+          description: Invalid input
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:events
             - read:events
-
+  
   /event/{eventId}:
     get:
       tags:
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/Event'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
@@ -87,6 +87,8 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Event not found
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:events
@@ -111,7 +113,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/Event'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
@@ -119,8 +121,8 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Event not found
-        '405':
-          description: Validation exception
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:events
@@ -148,8 +150,10 @@ paths:
       responses:
         '200':
           description: Successfully deleted
-        '400':
-          description: Invalid event value
+        '404':
+          description: Event not found
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:event
@@ -176,7 +180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participants'
+                $ref: '#/components/schemas/Participants'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participants'
@@ -184,6 +188,8 @@ paths:
           description: Invalid ID supplied
         '404':
           description: Event not found
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:events
@@ -229,12 +235,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Event'
+                $ref: '#/components/schemas/Event'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Event'
         '405':
+          description: Validation error
+        '400':
           description: Invalid input
+        '403':
+          description: Access denied
       security:
         - api_key:
             - write:events
@@ -266,14 +276,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participant'
+                $ref: '#/components/schemas/Participant'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participant'
         '400':
-          description: Invalid ID supplied
+          description: Invalid input (participant not found)
         '404':
-          description: Event not found
+          description: Event/user not found
       security:
         - api_key:
             - write:participants
@@ -305,16 +315,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Participant'
+                $ref: '#/components/schemas/Participant'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Participant'
         '400':
           description: Invalid ID supplied
+        '403':
+          description: Access denied
         '404':
-          description: Event not found
+          description: Event/user not found
         '405':
-          description: Validation exception
+          description: Validation error
       security:
         - api_key:
             - write:participants
@@ -349,19 +361,23 @@ paths:
       responses:
         '200':
           description: Successfully deleted
+        '403':
+          description: Access denied
+        '404':
+          description: Event/user not found
         '400':
-          description: Invalid event value
+          description: Invalid event or user value
       security:
         - api_key:
             - write:event
             - read:event
-
+  
   /user:
     post:
       tags:
         - user
       summary: Create user
-      description: This can only be done by the logged in user
+      description: Does not require to log in
       operationId: createUser
       requestBody:
         description: Created user object
@@ -376,7 +392,7 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
+        '200':
           description: successful operation
           content:
             application/json:
@@ -386,12 +402,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Validation Error
+          description: Validation error (invalid username or email)
         '409':
-          description: User with such username or email already exists.
-
+          description: User with such username or email already exists
+  
   /user/login:
-    get:
+    post:
       tags:
         - user
       summary: Logs user into the system
@@ -433,19 +449,7 @@ paths:
                 type: string
         '400':
           description: Invalid username/password supplied
-
-  /user/logout:
-    get:
-      tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
-      parameters: []
-      responses:
-        default:
-          description: successful operation
-
+  
   /user/{userId}:
     get:
       tags:
@@ -463,11 +467,11 @@ paths:
             format: int64
       responses:
         '200':
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -475,6 +479,8 @@ paths:
           description: Invalid user ID supplied
         '404':
           description: User not found
+        '403':
+          description: Access denied
     put:
       tags:
         - user
@@ -502,12 +508,14 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
       responses:
-        default:
+        '200':
           description: successful operation
         '400':
           description: Invalid user ID supplied
         '404':
           description: User not found
+        '403':
+          description: Access denied
     delete:
       tags:
         - user
@@ -529,7 +537,9 @@ paths:
           description: Invalid user ID supplied
         '404':
           description: User not found
-
+        '403':
+          description: Access denied
+  
   /calendar/{userId}:
     get:
       tags:
@@ -551,14 +561,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Calendar'
+                $ref: '#/components/schemas/Calendar'          
             application/xml:
               schema:
                 $ref: '#/components/schemas/Calendar'
         '400':
           description: Invalid ID supplied
+        '403':
+          description: Access denied
         '404':
-          description: Event not found
+          description: User/event not found
       security:
         - api_key:
             - write:events
@@ -644,7 +656,7 @@ components:
           example: 115
         userStatus:
           type: string
-          example: ''
+          example: 'coworker'
       xml:
         name: participant
 
@@ -667,7 +679,7 @@ components:
             phone: '895-3565-334'
       xml:
         name: participants
-
+ 
     Event:
       required:
         - id
@@ -727,4 +739,3 @@ components:
     api_key:
       type: apiKey
       in: header
-      name: api_key
