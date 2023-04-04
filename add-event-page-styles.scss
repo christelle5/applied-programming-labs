@@ -1,0 +1,215 @@
+/* Variables */
+$primary-color: #bbcc00;
+//$secondary-color: #969696;
+$light-color: #f7f7f7;
+$dark-color: #333333;
+$border-color: #d8d8d8;
+$white-color: #f8f8f8;
+$form-bg: #d3e03f;
+
+/* Global styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Garamond, serif;
+}
+
+body {
+  background-image: url("./images/backgr.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: $light-color;
+  color: $dark-color;
+  margin-top: 80px;
+  nargin-bottom: 40px;
+
+  .text {
+  color:$dark-color;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+.example-event {
+  margin-bottom: 10px;
+
+  .options {
+  color:$dark-color;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-style: italic;
+  }
+}
+
+/* Header */
+header {
+  background-color: $dark-color;
+  color: $light-color;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  font-weight: bold;
+  color: $primary-color;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.logo img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+header a {
+  color: $light-color;
+  margin-left: 20px;
+}
+
+nav {
+  display: flex;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin-left: 20px;
+}
+
+nav ul li {
+  margin-right: 20px;
+  max-width: 150px; /* Максимальна ширина елементу */
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Вирівнювання по горизонталі */
+  align-items: center; /* Вирівнювання по вертикалі */
+  flex-direction: column; /* Змінюємо напрямок контейнера на колонку */
+  height: 100%; /* Щоб елементи займали всю висоту */
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-left: 80px;
+  margin-right: 80px;
+  color:$dark-color;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  text-align: center;
+  display: inline-block;
+  background-color: $primary-color;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  a.buttons:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.event-container {
+  margin: 80px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: $white-color;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    font-family: Garamond, serif;
+
+    label {
+      margin-bottom: 20px;
+      margin-top: 20px;
+      font-family: Garamond, serif;
+    }
+
+    input {
+      height: 40px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      font-family: Garamond, serif;
+    }
+
+    button[type="submit"] {
+      background-color: $primary-color;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px;
+      cursor: pointer;
+      font-family: Garamond, serif;
+
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+
+    .cancel-button {
+      background-color: transparent;
+      color: #666;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      padding: 10px;
+      cursor: pointer;
+      font-family: Garamond, serif;
+      margin-top: 10px;
+
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+}
+
+
+/* Footer */
+footer {
+  background-color: $dark-color;
+  color: $light-color;
+  padding: 10px 20px;
+  text-align: center;
+}
