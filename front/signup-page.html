@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="signup-page-styles.css">
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <img src="./images/logo.png" alt="Logo" width="25" height="25"><p>Pigeon Coop</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="./start-page.html#about">About service</a></li>
+          <li><a href="./login-page.html">Log in</a></li>
+          <li><a href="./start-page.html#contact-form">Feedback</a></li>
+          <li><a href="#contact-info">Contacts</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="signup-container">
+      <h1>Sign Up</h1>
+      <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <div class="error-message" id="username-error"></div>
+
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required>
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" id="lastname" name="lastname" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <div class="error-message" id="email-error"></div>
+
+        <label for="phone">Phone:</label>
+        <input type="tel" id="phone" name="phone">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <div class="error-message" id="password-error"></div>
+
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+        <div class="error-message" id="confirm-password-error"></div>
+
+        <button type="submit">Sign Up</button>
+        <button type="button" class="cancel-button"><a href="./start-page.html">Cancel</a></button>
+      </form>
+    </div>
+  </body>
+  <footer>
+      <div class="contact-info" id="contact-info">
+        <p>Contact admin:<a href="bilka2004@ukr.net"> Christelle</a>.</p>
+        <p>Find out more about the <a href="https://github.com/christelle5/applied-programming-labs">project</a>.</p>
+        <p>&copy; 2023 The Events Calendar. All rights reserved.</p>
+      </div>
+    </footer>
+</html>
