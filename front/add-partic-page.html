@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <title>Add participant</title>
+    <link rel="stylesheet" href="add-partic-page-styles.css">
+</head>
+<body>
+  <header>
+      <div class="logo">
+        <img src="./images/logo.png" alt="Logo" width="25" height="25"><p>Pigeon Coop</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="./edit-user-page.html">My profile</a></li>
+          <li><a href="./calendar-page.html">My calendar</a></li>
+          <li><a href="./logout.php">Log Out</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="event-container">
+      <h1>Add new participant</h1>
+      <form>
+        <p class="text">Input username of the user.</p>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <div class="error-message" id="username-error"></div>
+
+        <p class="text">You can add his/her role or any other additional information.</p>
+        <label for="username">Role:</label>
+        <input type="text" id="role" name="role">
+        <div class="error-message" id="role-error"></div>
+
+        <a href="./event-page-crtr.html" class="buttons">Confirm</a>
+        <button type="button" class="cancel-button"><a href="./event-page-crtr.html">Cancel</a></button>
+      </form>
+    </div>
+  <footer>
+      <div class="contact-info" id="contact-info">
+        <p>Contact admin:<a href="bilka2004@ukr.net"> Christelle</a>.</p>
+        <p>Find out more about the <a href="https://github.com/christelle5/applied-programming-labs">project</a>.</p>
+        <p>&copy; 2023 The Events Calendar. All rights reserved.</p>
+      </div>
+  </footer>
+</body>
+</html>

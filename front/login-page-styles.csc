@@ -1,5 +1,4 @@
 @charset "UTF-8";
-/* Variables */
 /* Global styles */
 * {
   margin: 0;
@@ -13,7 +12,7 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #f7f7f7;
-  color: #333333;
+  font-family: Garamond, serif;
 }
 
 a {
@@ -82,37 +81,43 @@ nav ul li {
   height: 100%; /* Щоб елементи займали всю висоту */
 }
 
-/* Main */
-main {
+.login-container {
+  margin: 80px auto;
+  max-width: 400px;
   padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
 }
-
-/* Welcome */
-.welcome {
+.login-container h1 {
+  font-size: 28px;
   text-align: center;
-  margin-bottom: 35px;
-  margin-top: 80px;
-}
-
-/* About */
-.about {
-  margin-top: 35px;
   margin-bottom: 20px;
+  font-family: Garamond, serif;
 }
-
-.about p {
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  font-family: Garamond, serif;
+}
+.login-container form label {
   margin-bottom: 10px;
-  margin-top: 10px;
-  text-indent: 10px;
+  font-family: Garamond, serif;
+}
+.login-container form input {
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-family: Garamond, serif;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 5px;
   text-align: center;
   display: inline-block;
@@ -131,93 +136,15 @@ main {
   background-color: #8c9900;
 }
 
-/* Features */
-.features {
-  margin-bottom: 10px;
-}
-
-.features h4 {
-  text-align: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-top: 10px;
-}
-
-.features ul {
-  list-style-type: disc;
-  margin-bottom: 10px;
-}
-
-.features li {
-  margin-bottom: 10px;
-  padding-left: 5px;
-}
-
-/* Contact */
-.contact-form {
-  max-width: 600px;
-  margin: 0 auto;
-}
-.contact-form h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-.contact-form h4 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-.contact-form form {
-  display: flex;
-  flex-direction: column;
-  flex-direction: column;
-}
-.contact-form form .form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-.contact-form form .form-group label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-.contact-form form .form-group input,
-.contact-form form .form-group textarea {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: none;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-.contact-form form .form-group input:focus,
-.contact-form form .form-group textarea:focus {
-  outline: none;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-}
-.contact-form form .form-group textarea {
-  resize: vertical;
-  min-height: 150px;
-}
-.contact-form form button[type=submit] {
-  background-color: #bbcc00;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  font-family: Garamond, serif;
-  transition: all 0.2s ease-in-out;
-}
-.contact-form form button[type=submit]:hover {
-  background-color: #8c9900;
-}
-
 /* Footer */
 footer {
   background-color: #333333;
   color: #f7f7f7;
   padding: 10px 20px;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
-/*# sourceMappingURL=index-styles.css.map */
+/*# sourceMappingURL=login-page-styles.csc.map */

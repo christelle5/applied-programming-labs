@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="UTF-8">
-    <title>Change password</title>
-    <link rel="stylesheet" href="password-page-styles.css">
+    <title>Delete account</title>
+    <link rel="stylesheet" href="del-user-page-styles.css">
 </head>
 <body>
   <header>
@@ -18,21 +18,13 @@
       </nav>
     </header>
     <div class="password-container">
-      <h1>Change your password</h1>
+      <h1>Are you sure you want to delete your account?</h1>
       <form>
-        <label for="old-password">Old password:</label>
-        <input type="password" id="old-password" name="old-password" required>
-        <div class="error-message" id="password-error"></div>
-
-        <label for="new-password">New password:</label>
-        <input type="password" id="new-password" name="new-password" required>
-        <div class="error-message" id="new-password-error"></div>
-
-        <label for="confirm-password">Confirm new password:</label>
-        <input type="password" id="confirm-password" name="confirm-password" required>
-        <div class="error-message" id="confirm-password-error"></div>
-
-        <button type="submit">Confirm</button>
+        <label for="password">Input your password:</label>
+        <input type="password" id="password" name="password" required>
+        <label for="password">Confirm password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Delete my account</button>
         <button type="button" class="cancel-button"><a href="./edit-user-page.html">Cancel</a></button>
       </form>
     </div>

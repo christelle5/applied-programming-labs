@@ -112,7 +112,15 @@ nav ul li {
   margin-bottom: 20px;
   font-family: Garamond, serif;
 }
-.login-container form button {
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  text-align: center;
+  display: inline-block;
   background-color: #bbcc00;
   color: #fff;
   border: none;
@@ -121,8 +129,10 @@ nav ul li {
   padding: 10px;
   cursor: pointer;
   font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
 }
-.login-container form button:hover {
+.buttons a.buttons:hover {
   background-color: #8c9900;
 }
 
