@@ -2,3 +2,7 @@ Flask==2.2.2
 waitress==2.1.2
 SQLAlchemy==1.4.42
 mysql-connector-python==8.0.30
+werkzeug==2.2.2
+marshmellow==3.22.0
+flask_bcrypt==1.0.1
+flask_httpauth==4.8.0
