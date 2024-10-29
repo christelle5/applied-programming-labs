@@ -9,7 +9,7 @@
 }
 
 body {
-  background-image: url("./images/backgr.png");
+  background-image: url("./backgr.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #f7f7f7;
@@ -19,9 +19,9 @@ body {
 }
 body .text {
   color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -29,6 +29,19 @@ body .text {
 a {
   text-decoration: none;
   color: #bbcc00;
+}
+
+.example-event {
+  margin-bottom: 10px;
+}
+.example-event .options {
+  color: #333333;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-style: italic;
 }
 
 /* Header */
@@ -88,29 +101,10 @@ nav ul li {
   height: 100%; /* Щоб елементи займали всю висоту */
 }
 
-nav ul li.logout a {
-  background-color: #bbcc00;
-  color: #f7f7f7;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-}
-
-nav ul li.logout a:hover {
-  background-color: #8c9900;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  align-items: center;
-}
-
 h1 {
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   margin-left: 80px;
   margin-right: 80px;
   color: #333333;
@@ -118,13 +112,76 @@ h1 {
 }
 
 .buttons {
-  display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
   margin-top: 5px;
   text-align: center;
-  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  background-color: #bbcc00;
+  color: #fff;
+}
+
+.buttons a.buttons:hover {
+  background-color: #8c9900;
+}
+
+.cancel-button {
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  background-color: transparent;
+  color: #666;
+}
+
+.cancel-button a.cancel-button:hover {
+  background-color: #8c9900;
+}
+
+.event-container {
+  margin: 80px auto;
+  max-width: 600px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+}
+.event-container form {
+  display: flex;
+  flex-direction: column;
+  font-family: Garamond, serif;
+}
+.event-container form label {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  font-family: Garamond, serif;
+}
+.event-container form input {
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  font-family: Garamond, serif;
+}
+.event-container form button[type=submit] {
   background-color: #bbcc00;
   color: #fff;
   border: none;
@@ -133,91 +190,23 @@ h1 {
   padding: 10px;
   cursor: pointer;
   font-family: Garamond, serif;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
 }
-.buttons a.buttons:hover {
+.event-container form button[type=submit]:hover {
   background-color: #8c9900;
 }
-
-.title {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 40px auto;
-  margin-right: 40px;
-  margin-left: 40px;
-  background-color: #f8f8f8;
+.event-container form .cancel-button {
+  background-color: transparent;
+  color: #666;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 35px;
-  margin-top: 35px;
-  padding: 20px;
-  align-items: center;
-  text-align: center;
-}
-
-.title h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin: 20px auto;
-  margin-left: 80px;
-  margin-right: 80px;
-  color: #333333;
-  text-align: center;
-}
-
-.events {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 40px auto;
-  margin-right: 40px;
-  margin-left: 40px;
-}
-.events .event {
-  background-color: #f8f8f8;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 35px;
-  margin-top: 35px;
-  padding: 20px;
-  flex-basis: calc(50% - 20px);
-}
-.events .event .event__title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
-  color: #333333;
-}
-.events .event .event__description {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: Garamond, serif;
   margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
-.events .event .event__time, .events .event .event__sdate, .events .event .event__edate, .events .event .event__about {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.events .event .event__role {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+.event-container form .cancel-button:hover {
+  background-color: #eee;
 }
 
 /* Footer */
@@ -228,4 +217,4 @@ footer {
   text-align: center;
 }
 
-/*# sourceMappingURL=calendar-page-styles.css.map */
+/*# sourceMappingURL=add-event-page-styles.css.map */

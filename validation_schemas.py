@@ -13,8 +13,8 @@ class UserSchema(Schema):
 
 
 class EventSchema(Schema):
-    eventId = fields.Integer(required=True, strict=True)
-    creator_userId = fields.Integer(required=True, strict=True)
+    eventId = fields.Integer(strict=True)
+    creator_userId = fields.Integer(required=True)
     title = fields.String(required=True, validate=Length(min=5, max=80))
     aboutEvent = fields.String(required=True, validate=Length(min=20, max=255))
     startDate = fields.Date(required=True)

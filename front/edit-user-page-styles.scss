@@ -25,12 +25,12 @@ body {
   nargin-bottom: 40px;
 
   .text {
-  color:$dark-color;
-  font-size: 1rem;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  margin-left: 10px;
-  margin-right: 10px;
+      color:$dark-color;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
   }
 }
 
@@ -144,8 +144,21 @@ h1 {
     font-family: Garamond, serif;
 
     label {
-      margin-bottom: 10px;
-      font-family: Garamond, serif;
+      color:$dark-color;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .cusername, .cname, .clastname, .cemail, .cphone {
+      color:$dark-color;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-right: 10px;
     }
 
     input {

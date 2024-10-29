@@ -9,26 +9,20 @@
 }
 
 body {
-  background-image: url("./images/backgr.png");
+  background-image: url("./backgr.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #f7f7f7;
   color: #333333;
-  margin-top: 80px;
-  nargin-bottom: 40px;
-}
-body .text {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 a {
   text-decoration: none;
   color: #bbcc00;
+}
+
+h1, h2, h3 {
+  margin-bottom: 20px;
 }
 
 /* Header */
@@ -88,21 +82,39 @@ nav ul li {
   height: 100%; /* Щоб елементи займали всю висоту */
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-left: 80px;
-  margin-right: 80px;
-  color: #333333;
+/* Main */
+main {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Welcome */
+.welcome {
   text-align: center;
+  margin-bottom: 25px;
+  margin-top: 20px;
+}
+
+/* About */
+.about {
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+
+.about p {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  text-indent: 10px;
 }
 
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   margin-top: 5px;
   text-align: center;
   display: inline-block;
@@ -121,44 +133,73 @@ h1 {
   background-color: #8c9900;
 }
 
-.user-container {
+/* Features */
+.features {
+  margin-bottom: 10px;
+}
+
+.features h4 {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.features ul {
+  list-style-type: disc;
+  margin-bottom: 10px;
+}
+
+.features li {
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+/* Contact */
+.contact-form {
+  margin-top: 20px;
   margin: 80px auto;
-  max-width: 600px;
+  max-width: 400px;
   padding: 20px;
   border: 1px solid #ccc;
   background-color: #f8f8f8;
 }
-.user-container form {
+.contact-form h2 {
+  font-size: 1.7rem;
+  margin-bottom: 10px;
+}
+.contact-form form {
   display: flex;
   flex-direction: column;
   font-family: Garamond, serif;
 }
-.user-container form label {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+.contact-form form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
-.user-container form .cusername, .user-container form .cname, .user-container form .clastname, .user-container form .cemail, .user-container form .cphone {
-  color: #333333;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+.contact-form form .form-group label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
-.user-container form input {
-  height: 40px;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.contact-form form .form-group input,
+.contact-form form .form-group textarea {
+  padding: 0.5rem;
   font-size: 1rem;
-  margin-bottom: 20px;
-  font-family: Garamond, serif;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
-.user-container form button[type=submit] {
+.contact-form form .form-group input:focus,
+.contact-form form .form-group textarea:focus {
+  outline: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.contact-form form .form-group textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+.contact-form form button[type=submit] {
   background-color: #bbcc00;
   color: #fff;
   border: none;
@@ -167,23 +208,10 @@ h1 {
   padding: 10px;
   cursor: pointer;
   font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
 }
-.user-container form button[type=submit]:hover {
+.contact-form form button[type=submit]:hover {
   background-color: #8c9900;
-}
-.user-container form .cancel-button {
-  background-color: transparent;
-  color: #666;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  padding: 10px;
-  cursor: pointer;
-  font-family: Garamond, serif;
-  margin-top: 10px;
-}
-.user-container form .cancel-button:hover {
-  background-color: #eee;
 }
 
 /* Footer */
@@ -192,6 +220,8 @@ footer {
   color: #f7f7f7;
   padding: 10px 20px;
   text-align: center;
+  position: static;
+  bottom: 0;
 }
 
-/*# sourceMappingURL=edit-user-page-styles.css.map */
+/*# sourceMappingURL=index-styles.css.map */

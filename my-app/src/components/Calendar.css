@@ -1,6 +1,7 @@
 @charset "UTF-8";
 /* Variables */
 /* Global styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -8,14 +9,29 @@
   font-family: Garamond, serif;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  min-height: 100%;
+  position: relative;
+}
+
+.content {
+  margin-bottom: 150px; /* Висота футера */
+  background-color: invisible;
+}
+
 body {
-  background-image: url("./images/backgr.png");
+  background-image: url("./backgr.png");
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   background-color: #f7f7f7;
-  color: #333333;
-  margin-top: 80px;
-  nargin-bottom: 40px;
+  font-family: Garamond, serif;
 }
 body .text {
   color: #333333;
@@ -140,6 +156,26 @@ h1 {
   background-color: #8c9900;
 }
 
+.buttons2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+  display: inline-block;
+  background-color: #333333;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+  font-family: Garamond, serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
 .title {
   display: flex;
   flex-wrap: wrap;
@@ -175,6 +211,7 @@ h1 {
   margin: 40px auto;
   margin-right: 40px;
   margin-left: 40px;
+  margin-bottom: 60px;
 }
 .events .event {
   background-color: #f8f8f8;
@@ -226,6 +263,9 @@ footer {
   color: #f7f7f7;
   padding: 10px 20px;
   text-align: center;
-}
+  bottom: 0;
+  width: 100%;
 
-/*# sourceMappingURL=calendar-page-styles.css.map */
+  flex-shrink: 0;
+  height: 80px; /* Висота футера */
+}

@@ -9,7 +9,7 @@
 }
 
 body {
-  background-image: url("./images/backgr.png");
+  background-image: url("./backgr.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #f7f7f7;
@@ -117,14 +117,25 @@ h1 {
   text-align: center;
 }
 
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
+
+.participant__role {
+    font-size: 16px;
+}
+
 .buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
-  margin-top: 5px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   text-align: center;
-  display: inline-block;
   background-color: #bbcc00;
   color: #fff;
   border: none;
@@ -135,13 +146,27 @@ h1 {
   font-family: Garamond, serif;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
+  width: 200px;
 }
-.buttons a.buttons:hover {
+
+.buttons a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.buttons:hover {
   background-color: #8c9900;
 }
 
+.buttons a:hover {
+  color: #000;
+}
+
+
+
 .title {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
   margin: 40px auto;
@@ -151,11 +176,51 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 35px;
-  margin-top: 35px;
   padding: 20px;
   align-items: center;
   text-align: center;
+}
+.title h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 20px auto;
+  margin-left: 80px;
+  margin-right: 80px;
+  color: #333333;
+  text-align: center;
+}
+.title .event__title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #333333;
+}
+.title .event__description {
+  color: #333333;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.title .event__time, .title .event__date {
+  color: #333333;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.title .event__role {
+  color: #333333;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .title h1 {
@@ -168,7 +233,7 @@ h1 {
   text-align: center;
 }
 
-.events {
+.participants {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -176,7 +241,7 @@ h1 {
   margin-right: 40px;
   margin-left: 40px;
 }
-.events .event {
+.participants .participant {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -186,7 +251,7 @@ h1 {
   padding: 20px;
   flex-basis: calc(50% - 20px);
 }
-.events .event .event__title {
+.participants .participant .participant__name {
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 20px;
@@ -195,7 +260,7 @@ h1 {
   margin-right: 10px;
   color: #333333;
 }
-.events .event .event__description {
+.participants .participant .participant__username, .participants .participant .participant__status {
   color: #333333;
   font-size: 1.3rem;
   margin-bottom: 20px;
@@ -203,15 +268,16 @@ h1 {
   margin-left: 10px;
   margin-right: 10px;
 }
-.events .event .event__time, .events .event .event__sdate, .events .event .event__edate, .events .event .event__about {
+.participants .participant .participant__role {
   color: #333333;
   font-size: 1.3rem;
   margin-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
 }
-.events .event .event__role {
+
+label {
   color: #333333;
   font-size: 1.3rem;
   margin-bottom: 20px;
@@ -228,4 +294,4 @@ footer {
   text-align: center;
 }
 
-/*# sourceMappingURL=calendar-page-styles.css.map */
+/*# sourceMappingURL=event-page-crtr-styles.css.map */

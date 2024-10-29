@@ -225,6 +225,34 @@ h1 {
     color:$dark-color;
     text-align: center;
   }
+  
+.title-participants {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 40px auto;
+  margin-right: 40px;
+  margin-left: 40px;
+  background-color: $white-color;
+  
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  align-items: center;
+  text-align: center;
+
+    h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 20px auto;
+      margin-left: 80px;
+      margin-right: 80px;
+      color:$dark-color;
+      text-align: center;
+    }
+}
 
 .participants {
   display: flex;

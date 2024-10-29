@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DATE, ForeignKey,
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine("mysql+mysqlconnector://root:root@localhost:3306/calendar")
+engine = create_engine("mysql+mysqlconnector://root:Ne4Te2Si1Fi3_3@localhost:3306/calendar")
 
 SessionFactory = sessionmaker(bind=engine)
 Session = scoped_session(SessionFactory)

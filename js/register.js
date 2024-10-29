@@ -1,0 +1,1 @@
+import { Register } from './react_js/Register.jsx';
